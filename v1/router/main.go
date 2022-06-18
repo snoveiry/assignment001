@@ -4,6 +4,7 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/snoveiry/assignment001/config"
+	"github.com/snoveiry/assignment001/v1/controllers/twitter"
 )
 
 type Router struct {
@@ -16,5 +17,9 @@ func New() Router {
 }
 
 func (r *Router) Create() {
-
+	twitterV1 := twitter.NewController()
+	mainGroup := r.Group.Group("/")
+	{
+		mainGroup.GET("/v1.0/twitter/:id", twitterV1.GetTwitt)
+	}
 }

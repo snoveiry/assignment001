@@ -1,3 +1,4 @@
+// Package twitter defines handlers for twitter v1 endpoints
 package twitter
 
 import (

@@ -1,13 +1,18 @@
 // Package config defines the main assignment001 configuration
 package config
 
+import (
+	//authservice "github.com/snoveiry/assignment001/v1/services/auth"
+)
+
 type Assignment001 struct {
+	//AuthService                  *authservice.Authenticator
 	Port                         string
 	PostgresHost                 string
 	PostgresDatabase             string
 	PostgresUsername             string
 	PostgresPassword             string
-	JWTSecret                    string
+	TokenSecret                    string
 	DBInitArgs                   string
 	Environment                  string
 	BaseURL                      string

@@ -20,6 +20,7 @@ func (r *Router) Create() {
 	twitterV1 := twitter.NewController()
 	mainGroup := r.Group.Group("/")
 	{
-		mainGroup.GET("/v1.0/twitter/:id", twitterV1.GetTwitt)
+		mainGroup.GET("/v1.0/tweet/get/:id", twitterV1.GetTweet)
+		mainGroup.GET("/v1.0/tweet/get/stream", twitterV1.GetStream)
 	}
 }

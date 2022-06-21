@@ -8,9 +8,8 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func (a *Assignment001) router() {
+func (a *Assignment001) Rout() {
 	r := gin.New()
-
 	v1r := routerv1.New()
 	v1r.Group = r.Group("/")
 	v1r.Assignment001 = a.Config

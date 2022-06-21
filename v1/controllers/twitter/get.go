@@ -2,28 +2,28 @@ package twitter
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 
 	error1 "github.com/snoveiry/assignment001/error"
 
 	authservice "github.com/snoveiry/assignment001/v1/services/auth"
+	thirdparty "github.com/snoveiry/assignment001/v1/services/thirdparty"
 
 	"github.com/gin-gonic/gin"
 
-	twittmodel "github.com/snoveiry/assignment001/v1/models/twitter"
+	tweetmodel "github.com/snoveiry/assignment001/v1/models/twitter"
 )
 
-// GetTwitt handles getting a special twitt from a special user
-// @Summary get twitt
-// @Description Handles getting a special twitt
+// GetTweet handles getting a special tweet from a special user
+// @Summary get tweet
+// @Description Handles getting a special tweet
 // @Tags V1 Twitter
-// @Param id path string true "a valid twitt id value"
-// @Success 200
+// @Param id path string true "a valid tweet id value"
+// @Success 200 {object} tweetmodel.GetTweetResponse
 // @Security Bearer
-// @Router /v1.0/twitter/{id} [get]
-func (c *Controller) GetTwitt(ctx *gin.Context) {
+// @Router /v1.0/tweet/get/{id} [get]
+func (c *Controller) GetTweet(ctx *gin.Context) {
 	tid := ctx.Param("id")
 	url := "https://api.twitter.com/2/tweets/"
 
@@ -39,10 +39,8 @@ func (c *Controller) GetTwitt(ctx *gin.Context) {
 
 	// Create a Bearer string by appending string access token
 	var bearer = "Bearer "
-
 	auth := authservice.New(c.Assignment001)
 	token := auth.UniversalAuthenticator(ctx)
-
 	if token != nil && *token != "" && *token == "AAAAAAAAAAAAAAAAAAAAAM5PdwEAAAAAgXwbaN0ExfG7lytY18p8Xvk9fGA%3DhSCNeiaFgahz5FpY3BMQ4RwCXoP8GubTg9C4YLYUU0MzD6d937" {
 		bearer += *token
 	} else {
@@ -53,41 +51,13 @@ func (c *Controller) GetTwitt(ctx *gin.Context) {
 		return
 	}
 
-	// Create a new request using http
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		error1.JSON(ctx, http.StatusNotFound, &error1.E{
-			Type:        "END POINT ERROR",
-			Description: "Some description goes here.",
-		})
+	thpService := thirdparty.New(c.Assignment001)
+	res, body := thpService.GetTweetService(ctx, url, bearer)
+	if !res {
 		return
 	}
 
-	// add authorization header to the req
-	req.Header.Add("Authorization", bearer)
-
-	// Send req using http Client
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		error1.JSON(ctx, http.StatusInternalServerError, &error1.E{
-			Type:        "SERVER ERROR",
-			Description: "Calling from thirdparty has error.",
-		})
-		return
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		error1.JSON(ctx, http.StatusBadRequest, &error1.E{
-			Type:        "READ RESPONSE ERROR",
-			Description: "Could not read service response.",
-		})
-		return
-	}
-
-	var response twittmodel.GetTwittResponse
+	var response tweetmodel.GetTweetResponse
 	if err := json.Unmarshal(body, &response); err != nil {
 		error1.JSON(ctx, http.StatusInternalServerError, &error1.E{
 			Type:        "RESPONSE UNMARSHAL ERROR",

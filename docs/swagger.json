@@ -1,7 +1,10 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "This is the documentation for the Assignment001 API.",
+        "title": "Assignment001 API",
+        "contact": {},
+        "version": "1.0.0"
     },
     "paths": {
         "/echo": {
@@ -24,22 +27,41 @@
                 }
             }
         },
-        "/v1.0/twitter/{id}": {
+        "/v1.0/tweet/get/stream": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Handles getting a special twitt",
+                "description": "Handles getting filtered stream tweets of a special user with special rules",
                 "tags": [
                     "V1 Twitter"
                 ],
-                "summary": "get twitt",
+                "summary": "get filter stream tweets",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/v1.0/tweet/get/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Handles getting a special tweet",
+                "tags": [
+                    "V1 Twitter"
+                ],
+                "summary": "get tweet",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "a valid twitt id value",
+                        "description": "a valid tweet id value",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -47,7 +69,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/twitterv1.GetTweetResponse"
+                        }
                     }
                 }
             }
@@ -61,6 +86,32 @@
                     "type": "string"
                 }
             }
+        },
+        "twitterv1.Data": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "twitterv1.GetTweetResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/twitterv1.Data"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

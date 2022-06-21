@@ -43,22 +43,41 @@ var doc = `{
                 }
             }
         },
-        "/v1.0/twitter/{id}": {
+        "/v1.0/tweet/get/stream": {
             "get": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "Handles getting a special twitt",
+                "description": "Handles getting filtered stream tweets of a special user with special rules",
                 "tags": [
                     "V1 Twitter"
                 ],
-                "summary": "get twitt",
+                "summary": "get filter stream tweets",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/v1.0/tweet/get/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Handles getting a special tweet",
+                "tags": [
+                    "V1 Twitter"
+                ],
+                "summary": "get tweet",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "a valid twitt id value",
+                        "description": "a valid tweet id value",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -66,7 +85,10 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/twitterv1.GetTweetResponse"
+                        }
                     }
                 }
             }
@@ -80,6 +102,32 @@ var doc = `{
                     "type": "string"
                 }
             }
+        },
+        "twitterv1.Data": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "twitterv1.GetTweetResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "$ref": "#/definitions/twitterv1.Data"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`
@@ -95,12 +143,12 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "",
+	Version:     "1.0.0",
 	Host:        "",
 	BasePath:    "",
 	Schemes:     []string{},
-	Title:       "",
-	Description: "",
+	Title:       "Assignment001 API",
+	Description: "This is the documentation for the Assignment001 API.",
 }
 
 type s struct{}

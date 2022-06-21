@@ -4,8 +4,23 @@ definitions:
       message:
         type: string
     type: object
+  twitterv1.Data:
+    properties:
+      id:
+        type: string
+      text:
+        type: string
+    type: object
+  twitterv1.GetTweetResponse:
+    properties:
+      data:
+        $ref: '#/definitions/twitterv1.Data'
+    type: object
 info:
   contact: {}
+  description: This is the documentation for the Assignment001 API.
+  title: Assignment001 API
+  version: 1.0.0
 paths:
   /echo:
     get:
@@ -21,21 +36,40 @@ paths:
       summary: Uptime endpoint
       tags:
       - Global
-  /v1.0/twitter/{id}:
+  /v1.0/tweet/get/{id}:
     get:
-      description: Handles getting a special twitt
+      description: Handles getting a special tweet
       parameters:
-      - description: a valid twitt id value
+      - description: a valid tweet id value
         in: path
         name: id
         required: true
         type: string
       responses:
         "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/twitterv1.GetTweetResponse'
+      security:
+      - Bearer: []
+      summary: get tweet
+      tags:
+      - V1 Twitter
+  /v1.0/tweet/get/stream:
+    get:
+      description: Handles getting filtered stream tweets of a special user with special
+        rules
+      responses:
+        "200":
           description: ""
       security:
       - Bearer: []
-      summary: get twitt
+      summary: get filter stream tweets
       tags:
       - V1 Twitter
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/snoveiry/assignment001"
+	"github.com/snoveiry/assignment001/docs"
 	"github.com/snoveiry/assignment001/logger"
 )
 
@@ -28,5 +29,7 @@ func main() {
 	as.Config.BaseURL = os.Getenv("BASE_URL")
 	logger.Info(nil, as.Config.BaseURL)
 
+	docs.SwaggerInfo.Version = "1.0.0"
+	
 	as.Run()
 }

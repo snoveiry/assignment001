@@ -24,7 +24,7 @@ func (c *Controller) GetStream(ctx *gin.Context) {
 	var bearer = "Bearer "
 	auth := authservice.New(c.Assignment001)
 	token := auth.UniversalAuthenticator(ctx)
-	if token != nil && *token != "" && *token == "AAAAAAAAAAAAAAAAAAAAAM5PdwEAAAAAgXwbaN0ExfG7lytY18p8Xvk9fGA%3DhSCNeiaFgahz5FpY3BMQ4RwCXoP8GubTg9C4YLYUU0MzD6d937" {
+	if token != nil {
 		bearer += *token
 	} else {
 		error1.JSON(ctx, http.StatusUnauthorized, &error1.E{

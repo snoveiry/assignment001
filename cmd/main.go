@@ -23,9 +23,6 @@ func main() {
 	as.Config.Port = os.Getenv("PORT")
 	logger.Info(nil, as.Config.Port)
 
-	as.Config.TokenSecret = os.Getenv("TOKEN_SECRET")
-	logger.Info(nil, as.Config.TokenSecret)
-
 	as.Config.BaseURL = os.Getenv("BASE_URL")
 	logger.Info(nil, as.Config.BaseURL)
 
